@@ -1,31 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Always Ride Clean</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AlwaysRideClean - Premium Mobilne Mycie</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Reset */
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family:'Roboto', sans-serif; line-height:1.5; background:#f4f4f4; color:#222; scroll-behavior:smooth;}
+
+/* Header */
+header {background:#111; color:white; text-align:center; padding:25px 0; position:sticky; top:0; z-index:1000;}
+header img {height:80px; transition: transform 0.3s;}
+header img:hover {transform: scale(1.05);}
+
+/* Navigation */
+nav {display:flex; justify-content:center; background:#222; position:sticky; top:0; z-index:999;}
+nav a {padding:15px 25px; color:white; text-decoration:none; transition:0.3s;}
+nav a:hover {background:#0b74de;}
+
+/* Sections */
+.section {padding:60px 20px; text-align:center; opacity:0; transform: translateY(30px); transition: 0.8s;}
+.section.visible {opacity:1; transform: translateY(0);}
+.section h2 {font-size:36px; margin-bottom:20px; color:#111;}
+.section p {font-size:18px; margin-bottom:15px;}
+.price {font-size:24px; font-weight:bold; margin:10px 0; color:#0b74de;}
+
+/* Buttons */
+.button {display:inline-block; background:#0b74de; color:white; padding:15px 30px; margin-top:15px; border-radius:8px; text-decoration:none; transition:0.3s;}
+.button:hover {background:#095bb5; transform:scale(1.05);}
+
+/* Gallery Carousel */
+.gallery {display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:20px; padding-bottom:20px;}
+.gallery img {flex:0 0 auto; width:300px; height:200px; object-fit:cover; border-radius:12px; box-shadow:0 5px 10px rgba(0,0,0,0.3); scroll-snap-align:center; transition: transform 0.3s;}
+.gallery img:hover {transform:scale(1.05); cursor:pointer;}
+
+/* Contact */
+.contact-info {font-size:20px; margin:10px 0;}
+.contact-info a {color:#0b74de; text-decoration:none;}
+.contact-info a:hover {text-decoration:underline;}
+
+/* Footer */
+footer {background:#111; color:white; text-align:center; padding:20px; font-size:14px; margin-top:30px;}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to Always Ride Clean!</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Our Mission</h2>
-            <p>At Always Ride Clean, we strive to provide the best cleaning services for your vehicles.</p>
-        </section>
-        <section>
-            <h2>Services Offered</h2>
-            <ul>
-                <li>Exterior Wash</li>
-                <li>Interior Detailing</li>
-                <li>Waxing and Polishing</li>
-            </ul>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 Always Ride Clean. All rights reserved.</p>
-    </footer>
+
+<header>
+<img src="logo.png" alt="AlwaysRideClean">
+</header>
+
+<nav>
+<a href="#home">Start</a>
+<a href="#about">O mnie</a>
+<a href="#services">Usługi</a>
+<a href="#gallery">Galeria</a>
+<a href="#contact">Kontakt</a>
+</nav>
+
+<div class="section" id="home">
+<h2>Mobilne Mycie Samochodów – AlwaysRideClean</h2>
+<p>📍 Lokalizacja: Muchobór Wielki, Wrocław</p>
+<p>🚗 Dojeżdżam wszędzie – mobilnie, w dogodnym dla Ciebie terminie</p>
+<a class="button" href="#contact">Umów się teraz</a>
+</div>
+
+<div class="section" id="about">
+<h2>O mnie</h2>
+<p>Witam, mam na imię Kuba i mam 17 lat. Chcę zacząć uczciwą przygodę w zdobywaniu doświadczenia w myciu samochodów, aby kiedyś spełnić marzenie i otworzyć firmę w tej branży.</p>
+<p>Pomimo wieku gwarantuję przykładność i sumienne wykonanie pracy – sprawia mi to przyjemność i zależy mi na stałej, zadowolonej klienteli.</p>
+</div>
+
+<div class="section" id="services">
+<h2>Usługi & Cennik</h2>
+<p class="price">🚿 Mycie zewnętrzne – 50 zł</p>
+<p class="price">🧽 Mycie wnętrza – wkrótce (zbieram na sprzęt)</p>
+</div>
+
+<div class="section" id="gallery">
+<h2>Galeria</h2>
+<div class="gallery">
+<img src="car1.jpg" alt="Przykład auta 1">
+<img src="car2.jpg" alt="Przykład auta 2">
+<img src="car3.jpg" alt="Przykład auta 3">
+<img src="car4.jpg" alt="Przykład auta 4">
+</div>
+</div>
+
+<div class="section" id="contact">
+<h2>Kontakt</h2>
+<p class="contact-info">📞 Telefon: <a href="tel:+48730190909">+48 730 190 909</a></p>
+<p class="contact-info">📧 Email: <a href="mailto:jakubeknd@gmail.com">jakubeknd@gmail.com</a></p>
+<a class="button" href="tel:+48730190909">Zadzwoń teraz</a>
+</div>
+
+<footer>
+© 2026 AlwaysRideClean – Wszystkie prawa zastrzeżone
+</footer>
+
+<script>
+// Animacja sekcji przy scrollu
+const sections = document.querySelectorAll('.section');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add('visible');
+        }
+    });
+}, {threshold: 0.2});
+
+sections.forEach(section => {observer.observe(section);});
+</script>
+
 </body>
 </html>
