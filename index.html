@@ -8,8 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* RESET */
 * {margin:0; padding:0; box-sizing:border-box;}
 
 body {
@@ -18,17 +16,9 @@ body {
     color:white;
 }
 
-/* LOGO */
-header {
-    text-align:center;
-    padding:20px;
-}
+header {text-align:center; padding:20px;}
+header img {max-width:260px;}
 
-header img {
-    max-width:280px;
-}
-
-/* STRONY */
 .page {
     display:none;
     max-width:900px;
@@ -37,99 +27,32 @@ header img {
     text-align:center;
     background: rgba(255,255,255,0.05);
     border-radius:20px;
-    backdrop-filter: blur(12px);
-    transform: translateY(20px);
-    opacity:0;
-    transition:0.5s;
 }
-
-.page.active {
-    display:block;
-    opacity:1;
-    transform: translateY(0);
-}
-
-/* BUTTONY */
-.buttons, .cta-group {
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-    margin-top:25px;
-}
+.page.active {display:block;}
 
 button {
-    padding:18px;
+    padding:15px;
+    margin:8px 0;
+    width:100%;
     font-size:18px;
     background:#0b74de;
     border:none;
-    border-radius:12px;
+    border-radius:10px;
     color:white;
     cursor:pointer;
-    transition:0.3s;
 }
 
-button:hover {
-    background:#095bb5;
-    transform:scale(1.05);
-}
+.price {font-size:22px; color:#4fc3f7;}
+.counter {font-size:35px; margin:15px 0; color:#4fc3f7;}
 
-/* CTA FLOAT */
-.call-btn {
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:#0b74de;
-    padding:15px 20px;
-    border-radius:50px;
-    font-size:18px;
-    box-shadow:0 0 20px rgba(0,0,0,0.5);
-    animation:pulse 2s infinite;
-}
+.stars span {font-size:30px; cursor:pointer;}
 
-@keyframes pulse {
-    0% {box-shadow:0 0 0 0 rgba(11,116,222,0.7);}
-    70% {box-shadow:0 0 0 15px rgba(11,116,222,0);}
-}
-
-/* CENNIK */
-.price {
-    font-size:24px;
-    color:#4fc3f7;
+.review {
+    background:rgba(255,255,255,0.1);
     margin:10px 0;
-}
-
-/* GALERIA */
-.gallery {
-    display:flex;
-    gap:15px;
-    overflow-x:auto;
-    margin-top:20px;
-}
-
-.gallery img {
-    width:240px;
-    height:150px;
+    padding:10px;
     border-radius:10px;
-    object-fit:cover;
 }
-
-/* LICZNIK */
-.counter {
-    font-size:40px;
-    font-weight:bold;
-    color:#4fc3f7;
-    margin:20px 0;
-}
-
-/* MAPA */
-iframe {
-    width:100%;
-    height:250px;
-    border:none;
-    border-radius:15px;
-    margin-top:20px;
-}
-
 </style>
 </head>
 
@@ -142,102 +65,122 @@ iframe {
 <!-- HOME -->
 <div id="home" class="page active">
 <h2>🚗 AlwaysRideClean</h2>
-
 <p>📍 Wrocław + okolice</p>
 <p>🚗 Dojazd GRATIS do 5 km</p>
 
 <div class="counter" id="counter">0</div>
 <p>Zadowolonych klientów</p>
 
-<div class="buttons">
 <button onclick="showPage('about')">👤 O mnie</button>
 <button onclick="showPage('services')">💰 Usługi</button>
-<button onclick="showPage('gallery')">📸 Efekty</button>
+<button onclick="showPage('reviews')">⭐ Opinie</button>
 <button onclick="showPage('contact')">📞 Kontakt</button>
-</div>
 </div>
 
 <!-- O MNIE -->
 <div id="about" class="page">
 <h2>👤 O mnie</h2>
-<p>Mam 17 lat i zajmuję się dokładnym myciem aut.</p>
-<p>💪 Każde auto robię jak dla siebie!</p>
-
-<div class="cta-group">
-<button onclick="showPage('contact')">📞 Umów się</button>
+<p>Witam, mam na imię Kuba i mam 17 lat. Chcę zacząć uczciwą przygodę...</p>
+<p>Pomimo wieku gwarantuję przykładność i sumienne wykonanie pracy...</p>
 <button onclick="showPage('home')">⬅ Powrót</button>
-</div>
 </div>
 
 <!-- USŁUGI -->
 <div id="services" class="page">
 <h2>💰 Usługi</h2>
-
-<p class="price">🔥 Pierwsze mycie – 40 zł</p>
+<p class="price">🔥 Pierwsze mycie zewnętrzne – 40 zł</p>
 <p class="price">🚿 Mycie zewnętrzne – 60 zł</p>
-
-<div class="cta-group">
-<button onclick="showPage('contact')">📞 Rezerwuj</button>
+<p>🧽 Wnętrze – wkrótce</p>
+<p>📦 Pakiet – wkrótce</p>
 <button onclick="showPage('home')">⬅ Powrót</button>
 </div>
+
+<!-- OPINIE -->
+<div id="reviews" class="page">
+<h2>⭐ Opinie</h2>
+
+<div class="stars">
+<span onclick="setStars(1)">⭐</span>
+<span onclick="setStars(2)">⭐</span>
+<span onclick="setStars(3)">⭐</span>
+<span onclick="setStars(4)">⭐</span>
+<span onclick="setStars(5)">⭐</span>
 </div>
 
-<!-- GALERIA -->
-<div id="gallery" class="page">
-<h2>📸 Efekty</h2>
+<textarea id="reviewText" placeholder="Napisz opinię..." style="width:100%;margin-top:10px;padding:10px;"></textarea>
 
-<div class="gallery">
-<img src="before1.jpg">
-<img src="after1.jpg">
-<img src="before2.jpg">
-<img src="after2.jpg">
-</div>
+<button onclick="addReview()">Dodaj opinię</button>
 
-<div class="cta-group">
-<button onclick="showPage('contact')">📞 Chcę taki efekt</button>
+<div id="reviewsList"></div>
+
+<button onclick="clearReviews()" style="background:red;">🗑 Usuń opinie</button>
 <button onclick="showPage('home')">⬅ Powrót</button>
-</div>
 </div>
 
 <!-- KONTAKT -->
 <div id="contact" class="page">
 <h2>📞 Kontakt</h2>
-
 <p><a href="tel:+48730190909" style="color:#4fc3f7;">+48 730 190 909</a></p>
 <p><a href="mailto:jakubeknd@gmail.com" style="color:#4fc3f7;">jakubeknd@gmail.com</a></p>
-
-<!-- MAPA -->
-<iframe src="https://maps.google.com/maps?q=Wrocław&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
-
-<div class="cta-group">
 <button onclick="location.href='tel:+48730190909'">📞 Zadzwoń</button>
 <button onclick="showPage('home')">⬅ Powrót</button>
 </div>
-</div>
-
-<!-- PRZYCISK ZADZWOŃ -->
-<a href="tel:+48730190909" class="call-btn">📞</a>
 
 <script>
 
 /* NAWIGACJA */
-function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
+function showPage(id){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
 }
 
-/* LICZNIK */
-let count = 0;
-let target = 25; // zmień na ile chcesz
+/* SYSTEM OPINII */
+let selectedStars = 0;
 
-let counter = setInterval(() => {
-    if(count < target){
-        count++;
-        document.getElementById("counter").innerText = count;
-    } else {
-        clearInterval(counter);
-    }
-}, 50);
+function setStars(num){
+    selectedStars = num;
+}
+
+/* ZAŁADUJ Z PAMIĘCI */
+let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+
+function renderReviews(){
+    let list = document.getElementById("reviewsList");
+    list.innerHTML = "";
+
+    reviews.forEach(r=>{
+        let div = document.createElement("div");
+        div.className = "review";
+        div.innerHTML = "⭐".repeat(r.stars) + "<br>" + r.text;
+        list.appendChild(div);
+    });
+
+    document.getElementById("counter").innerText = reviews.length;
+}
+
+/* DODAJ OPINIĘ */
+function addReview(){
+    let text = document.getElementById("reviewText").value;
+    if(text === "" || selectedStars === 0) return;
+
+    reviews.push({stars:selectedStars, text:text});
+    localStorage.setItem("reviews", JSON.stringify(reviews));
+
+    document.getElementById("reviewText").value = "";
+    selectedStars = 0;
+
+    renderReviews();
+}
+
+/* USUŃ */
+function clearReviews(){
+    localStorage.removeItem("reviews");
+    reviews = [];
+    renderReviews();
+}
+
+/* START */
+renderReviews();
 
 </script>
 
