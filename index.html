@@ -17,8 +17,19 @@ body {
 }
 
 header {text-align:center; padding:20px;}
-header img {max-width:260px;}
+header img {
+    max-width:260px;
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.6));
+    animation: fadeIn 1s ease;
+}
 
+/* ANIMACJA */
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(-20px);}
+    to {opacity:1; transform:translateY(0);}
+}
+
+/* STRONY */
 .page {
     display:none;
     max-width:900px;
@@ -27,7 +38,12 @@ header img {max-width:260px;}
     text-align:center;
     background: rgba(255,255,255,0.05);
     border-radius:20px;
+
+    max-height:80vh;
+    overflow-y:auto;
+    animation: fadeIn 0.5s ease;
 }
+
 .page.active {display:block;}
 
 button {
@@ -40,12 +56,37 @@ button {
     border-radius:10px;
     color:white;
     cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover {
+    background:#095bb5;
+    transform:scale(1.03);
 }
 
 .price {font-size:22px; color:#4fc3f7;}
-.counter {font-size:35px; margin:15px 0; color:#4fc3f7;}
 
-.stars span {font-size:30px; cursor:pointer;}
+.counter {
+    font-size:35px;
+    margin:15px 0;
+    color:#4fc3f7;
+}
+
+.avgRating {
+    margin-top:10px;
+    font-size:18px;
+    color:#ffd54f;
+}
+
+.stars span {
+    font-size:30px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.stars span:hover {
+    transform:scale(1.2);
+}
 
 .review {
     background:rgba(255,255,255,0.1);
@@ -53,13 +94,22 @@ button {
     padding:10px;
     border-radius:10px;
 }
+
+/* MAPA */
+iframe {
+    width:100%;
+    height:300px;
+    border:none;
+    border-radius:10px;
+    margin-top:15px;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<img src="logo.jpg">
+<img src="logo.png" alt="AlwaysRideClean logo">
 </header>
 
 <!-- HOME -->
@@ -71,25 +121,34 @@ button {
 <div class="counter" id="counter">0</div>
 <p>Zadowolonych klientów</p>
 
+<div class="avgRating" id="avgRating">Średnia ocen: 0 ⭐</div>
+
 <button onclick="showPage('about')">👤 O mnie</button>
 <button onclick="showPage('services')">💰 Usługi</button>
 <button onclick="showPage('reviews')">⭐ Opinie</button>
 <button onclick="showPage('contact')">📞 Kontakt</button>
+
+<button onclick="bookNow()" style="background:#00c853;">📅 Umów wizytę</button>
 </div>
 
 <!-- O MNIE -->
 <div id="about" class="page">
 <h2>👤 O mnie</h2>
-<p>Witam, mam na imię Kuba i mam 17 lat. Chcę zacząć uczciwą przygodę...</p>
-<p>Pomimo wieku gwarantuję przykładność i sumienne wykonanie pracy...</p>
+
+<p>Witam, mam na imię Kuba i mam 17 lat. Chcę zacząć uczciwą przygodę z własnym biznesem.</p>
+<p>Gwarantuję dokładność, punktualność i pełne zaangażowanie.</p>
+<p>Każde auto traktuję jak swoje – liczy się efekt i zadowolenie klienta.</p>
+<p>To dopiero początek, ale podchodzę do tego bardzo poważnie.</p>
+<p>Zapraszam do kontaktu 🙂</p>
+
 <button onclick="showPage('home')">⬅ Powrót</button>
 </div>
 
 <!-- USŁUGI -->
 <div id="services" class="page">
 <h2>💰 Usługi</h2>
-<p class="price">🔥 Pierwsze mycie zewnętrzne – 40 zł</p>
-<p class="price">🚿 Mycie zewnętrzne – 60 zł</p>
+<p class="price">🔥 Pierwsze mycie – 40 zł</p>
+<p class="price">🚿 Mycie – 60 zł</p>
 <p>🧽 Wnętrze – wkrótce</p>
 <p>📦 Pakiet – wkrótce</p>
 <button onclick="showPage('home')">⬅ Powrót</button>
@@ -120,9 +179,16 @@ button {
 <!-- KONTAKT -->
 <div id="contact" class="page">
 <h2>📞 Kontakt</h2>
+
 <p><a href="tel:+48730190909" style="color:#4fc3f7;">+48 730 190 909</a></p>
 <p><a href="mailto:jakubeknd@gmail.com" style="color:#4fc3f7;">jakubeknd@gmail.com</a></p>
+
 <button onclick="location.href='tel:+48730190909'">📞 Zadzwoń</button>
+<button onclick="openWhatsApp()">💬 WhatsApp</button>
+
+<!-- MAPA -->
+<iframe src="https://maps.google.com/maps?q=Wrocław&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+
 <button onclick="showPage('home')">⬅ Powrót</button>
 </div>
 
@@ -134,21 +200,23 @@ function showPage(id){
     document.getElementById(id).classList.add('active');
 }
 
-/* SYSTEM OPINII */
+/* OPINIE */
 let selectedStars = 0;
+let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
 
 function setStars(num){
     selectedStars = num;
 }
 
-/* ZAŁADUJ Z PAMIĘCI */
-let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
-
 function renderReviews(){
     let list = document.getElementById("reviewsList");
     list.innerHTML = "";
 
+    let totalStars = 0;
+
     reviews.forEach(r=>{
+        totalStars += r.stars;
+
         let div = document.createElement("div");
         div.className = "review";
         div.innerHTML = "⭐".repeat(r.stars) + "<br>" + r.text;
@@ -156,9 +224,11 @@ function renderReviews(){
     });
 
     document.getElementById("counter").innerText = reviews.length;
+
+    let avg = reviews.length ? (totalStars / reviews.length).toFixed(1) : 0;
+    document.getElementById("avgRating").innerText = "Średnia ocen: " + avg + " ⭐";
 }
 
-/* DODAJ OPINIĘ */
 function addReview(){
     let text = document.getElementById("reviewText").value;
     if(text === "" || selectedStars === 0) return;
@@ -172,11 +242,19 @@ function addReview(){
     renderReviews();
 }
 
-/* USUŃ */
 function clearReviews(){
     localStorage.removeItem("reviews");
     reviews = [];
     renderReviews();
+}
+
+/* KONTAKT */
+function openWhatsApp(){
+    window.open("https://wa.me/48730190909", "_blank");
+}
+
+function bookNow(){
+    window.open("https://wa.me/48730190909?text=Chcę umówić mycie auta", "_blank");
 }
 
 /* START */
